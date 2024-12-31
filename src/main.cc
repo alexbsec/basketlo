@@ -1,7 +1,11 @@
 #include <cstdlib>
-#include <iostream>
+#include "include/game.hpp"
 
 int main() {
-    std::cout << "basktlo" << std::endl;
+    string title = "basktlo";
+    Game game(title);
+
+    game.Run();
+
     return EXIT_SUCCESS;
 }
