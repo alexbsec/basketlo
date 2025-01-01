@@ -1,3 +1,5 @@
+#include <cmath>
+#include <iostream>
 #include "include/game.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Keyboard.hpp>
@@ -6,6 +8,8 @@
 const unsigned int WIDTH = 800;
 const unsigned int HEIGHT = 640;
 const float RADIUS = 10.0f;
+const float PLAYER_SPEED = 200.0f;
+const sf::Time TIME_PER_FRAME = sf::seconds(1.0f / 60.0f);
 
 Game::Game(const string& title)
     : _mWindow(sf::RenderWindow(sf::VideoMode(WIDTH, HEIGHT), title))
@@ -17,9 +21,9 @@ Game::Game(const string& title)
 }
 
 void Game::Run() {
+    _deltaTime = sf::Time::Zero;
     while (_mWindow.isOpen()) {
-        ProcessEvents();
-        Update();
+        FixedTimeUpdate();
         Render();
     }
 }
@@ -68,6 +72,12 @@ void Game::Update() {
         movementVector.x += 1.0f;
     }
 
+    NormalizeMovement(movementVector);
+    movementVector = PLAYER_SPEED * TIME_PER_FRAME.asSeconds() * movementVector;
+
+    std::cout << "[" << movementVector.x << ", " << movementVector.y << "]"
+        << std::endl;
+
     _mPlayer.move(movementVector);
 }
 
@@ -92,5 +102,23 @@ void Game::HandlePlayerInput(sf::Keyboard::Key keyCode, bool isPressed) {
 
     if (keyCode == sf::Keyboard::Key::D) {
         _movementMap[Moving::RIGHT] = isPressed;
+    }
+}
+
+void Game::FixedTimeUpdate() {
+    ProcessEvents();
+    _deltaTime += _mClock.restart();
+    while (_deltaTime > TIME_PER_FRAME) {
+        _deltaTime -= TIME_PER_FRAME;
+        ProcessEvents();
+        Update();
+    }
+}
+
+void Game::NormalizeMovement(sf::Vector2f& movVec) {
+    float len = sqrt(movVec.x * movVec.x + movVec.y * movVec.y);
+    if (len != 0) {
+        movVec.x = movVec.x / len;
+        movVec.y = movVec.y / len;
     }
 }

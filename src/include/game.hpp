@@ -28,10 +28,14 @@ class Game {
         void Update();
         void Render();
         void HandlePlayerInput(sf::Keyboard::Key keyCode, bool isPressed);
+        void FixedTimeUpdate();
+        void NormalizeMovement(sf::Vector2f& movVec);
 
         sf::RenderWindow _mWindow;
         sf::CircleShape _mPlayer;
         umap<Moving, bool> _movementMap;
+        sf::Clock _mClock;
+        sf::Time _deltaTime;
 };
 
 #endif
