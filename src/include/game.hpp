@@ -31,10 +31,7 @@ class Game {
 
         sf::RenderWindow _mWindow;
         sf::CircleShape _mPlayer;
-        bool _mIsMovingUp;
-        bool _mIsMovingDown;
-        bool _mIsMovingLeft;
-        bool _mIsMovingRight;
+        umap<Moving, bool> _movementMap;
 };
 
 #endif

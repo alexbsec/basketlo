@@ -9,12 +9,13 @@ const float RADIUS = 10.0f;
 
 Game::Game(const string& title)
     : _mWindow(sf::RenderWindow(sf::VideoMode(WIDTH, HEIGHT), title))
-    , _mPlayer(sf::CircleShape(RADIUS))
-    , _mIsMovingUp(false)
-    , _mIsMovingDown(false)
-    , _mIsMovingLeft(false)
-    , _mIsMovingRight(false) {}
-    
+    , _mPlayer(sf::CircleShape(RADIUS)) {
+    _movementMap[Moving::UP] = false;
+    _movementMap[Moving::DOWN] = false;
+    _movementMap[Moving::LEFT] = false;
+    _movementMap[Moving::RIGHT] = false;
+}
+
 void Game::Run() {
     while (_mWindow.isOpen()) {
         ProcessEvents();
@@ -51,19 +52,19 @@ void Game::ProcessEvents() {
 void Game::Update() {
     sf::Vector2f movementVector(0.0f, 0.0f);
     
-    if (_mIsMovingUp) {
+    if (_movementMap[Moving::UP]) {
         movementVector.y -= 1.0f;
     }
 
-    if (_mIsMovingDown) {
+    if (_movementMap[Moving::DOWN]) {
         movementVector.y += 1.0f;
     }
 
-    if (_mIsMovingLeft) {
+    if (_movementMap[Moving::LEFT]) {
         movementVector.x -= 1.0f;
     }
 
-    if (_mIsMovingRight) {
+    if (_movementMap[Moving::RIGHT]) {
         movementVector.x += 1.0f;
     }
 
@@ -78,18 +79,18 @@ void Game::Render() {
 
 void Game::HandlePlayerInput(sf::Keyboard::Key keyCode, bool isPressed) {
     if (keyCode == sf::Keyboard::Key::W) {
-        _mIsMovingUp = isPressed; 
+        _movementMap[Moving::UP] = isPressed; 
     }
 
     if (keyCode == sf::Keyboard::Key::S) {
-        _mIsMovingDown = isPressed;
+        _movementMap[Moving::DOWN] = isPressed;
     }
 
     if (keyCode == sf::Keyboard::Key::A) {
-        _mIsMovingLeft = isPressed;
+        _movementMap[Moving::LEFT] = isPressed;
     }
 
     if (keyCode == sf::Keyboard::Key::D) {
-        _mIsMovingRight = isPressed;
+        _movementMap[Moving::RIGHT] = isPressed;
     }
 }
