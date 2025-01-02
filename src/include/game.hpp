@@ -1,20 +1,17 @@
 #ifndef _BASKTLO_GAME_HPP
 #define _BASKTLO_GAME_HPP
 
+
+#include "input.hpp"
+#include "player.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <string>
+#include <memory>
 #include <unordered_map>
 
 template <typename T, typename Q>
 using umap = std::unordered_map<T, Q>;
-
-enum class Moving {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT
-};
 
 using string = std::string;
 
@@ -27,15 +24,14 @@ class Game {
         void ProcessEvents();
         void Update();
         void Render();
-        void HandlePlayerInput(sf::Keyboard::Key keyCode, bool isPressed);
         void FixedTimeUpdate();
-        void NormalizeMovement(sf::Vector2f& movVec);
 
         sf::RenderWindow _mWindow;
-        sf::CircleShape _mPlayer;
-        umap<Moving, bool> _movementMap;
         sf::Clock _mClock;
         sf::Time _deltaTime;
+        umap<Moving, bool> _movementMap;
+        std::unique_ptr<InputManager> _inputManager;
+        std::unique_ptr<Player> _mPlayer;
 };
 
 #endif
