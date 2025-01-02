@@ -14,13 +14,10 @@ namespace textures {
 enum PlayerTexture { Idle1, Idle2, Idle3, Idle4 };
 
 const std::vector<PlayerTexture> PLAYER_TEXTURES = {
-  PlayerTexture::Idle1,
-  PlayerTexture::Idle2,
-  PlayerTexture::Idle3,
-  PlayerTexture::Idle4
-}; 
+    PlayerTexture::Idle1, PlayerTexture::Idle2, PlayerTexture::Idle3,
+    PlayerTexture::Idle4};
 
-}
+} // namespace textures
 
 template <typename Resource, typename Identifier> class ResourceHolder {
 public:
