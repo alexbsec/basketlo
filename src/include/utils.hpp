@@ -11,5 +11,6 @@ namespace utils {
     const unsigned int WINDOW_HEIGHT = 1080;
 
     void NormalizeVector2f(sf::Vector2f& vec); 
+    float GetVector2fMaginitude(const sf::Vector2f& vec);
 }
 #endif

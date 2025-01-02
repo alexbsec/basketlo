@@ -10,7 +10,7 @@ Game::Game(const string& title)
         utils::WINDOW_WIDTH, utils::WINDOW_HEIGHT
     ), title))
     , _inputManager(nullptr) 
-    , _mPlayer(std::make_unique<Player>()) {
+    , _mPlayer(std::make_unique<Player>(Player::Type::Archer)) {
     _movementMap[Moving::UP] = false;
     _movementMap[Moving::DOWN] = false;
     _movementMap[Moving::LEFT] = false;
@@ -42,7 +42,7 @@ void Game::ProcessEvents() {
 }
 
 void Game::Update() {
-    _mPlayer->Update();
+    _mPlayer->Update(_deltaTime);
 }
 
 void Game::Render() {
