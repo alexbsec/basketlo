@@ -5,11 +5,10 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/VideoMode.hpp>
 
-const unsigned int WIDTH = 1920;
-const unsigned int HEIGHT = 1080;
-
 Game::Game(const string& title)
-    : _mWindow(sf::RenderWindow(sf::VideoMode(WIDTH, HEIGHT), title))
+    : _mWindow(sf::RenderWindow(sf::VideoMode(
+        utils::WINDOW_WIDTH, utils::WINDOW_HEIGHT
+    ), title))
     , _inputManager(nullptr) 
     , _mPlayer(std::make_unique<Player>()) {
     _movementMap[Moving::UP] = false;
