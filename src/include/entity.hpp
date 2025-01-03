@@ -1,21 +1,12 @@
 #ifndef _BASKTLO_ENTITY_HPP
 #define _BASKTLO_ENTITY_HPP
 
-#include <SFML/Graphics/RenderWindow.hpp>
+#include "scene_node.hpp"
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/System/Time.hpp>
 
-class IMovableObject {
+class Entity : public SceneNode {
 public:
-  ~IMovableObject() = default;
-  virtual void Update() = 0;
-  virtual sf::Sprite GetSprite() const = 0;
-  virtual sf::Vector2f GetPosition() const = 0;
-  virtual sf::Vector2f GetMovementVector() const = 0;
-};
-
-class Entity {
-public:
-  void Draw(sf::RenderWindow &window, sf::Sprite sprite);
   void SetVelocity(sf::Vector2f velocity);
   void SetVelocity(float vx, float vy);
   void SetIsMoving(bool isMoving);
@@ -27,6 +18,8 @@ public:
   bool IsAttacking() const;
 
 private:
+  virtual void UpdateCurrent(sf::Time deltaTime);
+  
   bool _mIsMoving;
   bool _mIsAlive;
   bool _mIsAttacking;

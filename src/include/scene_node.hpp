@@ -5,6 +5,7 @@
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/System/NonCopyable.hpp>
+#include <SFML/System/Time.hpp>
 #include <memory>
 #include <vector>
 
@@ -18,12 +19,16 @@ public:
   SceneNode();
   void AttachChild(Ptr child);
   Ptr DetachChild(const SceneNode &node);
+  void Update(sf::Time deltaTime);
+  sf::Transform GetWorldTransform() const;
 
 private:
   virtual void draw(sf::RenderTarget &target,
                     sf::RenderStates states) const final;
   virtual void DrawCurrent(sf::RenderTarget &target,
                            sf::RenderStates states) const;
+  virtual void UpdateCurrent(sf::Time deltaTime);
+  void UpdateChildren(sf::Time deltaTime);
 
   vector<Ptr> _mChildren;
   SceneNode *_mParent;

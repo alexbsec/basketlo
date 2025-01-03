@@ -2,10 +2,6 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
-void Entity::Draw(sf::RenderWindow &window, sf::Sprite sprite) {
-  window.draw(sprite);
-}
-
 void Entity::SetVelocity(sf::Vector2f velocity) { _mVelocity = velocity; }
 
 void Entity::SetVelocity(float vx, float vy) {
@@ -25,3 +21,7 @@ bool Entity::IsMoving() const { return _mIsMoving; }
 bool Entity::IsAlive() const { return _mIsAlive; }
 
 bool Entity::IsAttacking() const { return _mIsAttacking; }
+
+void Entity::UpdateCurrent(sf::Time deltaTime) {
+  move(_mVelocity * deltaTime.asSeconds());
+}
