@@ -19,7 +19,8 @@ public:
   Ptr DetachChild(const SceneNode& node);
 
 private:
-  virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+  virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+    final;
   virtual void DrawCurrent(sf::RenderTarget& target, sf::RenderStates states)
     const;
 
