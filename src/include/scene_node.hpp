@@ -29,4 +29,9 @@ private:
   SceneNode *_mParent;
 };
 
+// Usage:
+// sf::RenderWindow window(...);
+// SceneNode::Ptr node(...);
+// window.draw(*node);
+
 #endif

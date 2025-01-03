@@ -11,6 +11,7 @@ template <typename T, typename Q> using umap = std::unordered_map<T, Q>;
 using string = std::string;
 
 namespace textures {
+enum ID { Archer, Mage, Warrior, None };
 enum PlayerTexture { Idle1, Idle2, Idle3, Idle4 };
 
 const std::vector<PlayerTexture> PLAYER_TEXTURES = {
@@ -48,3 +49,5 @@ public:
 private:
   umap<Identifier, std::unique_ptr<Resource>> _mResourceMap;
 };
+
+typedef ResourceHolder<sf::Texture, textures::ID> TextureHolder;

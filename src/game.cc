@@ -1,15 +1,24 @@
 #include "include/game.hpp"
+#include "include/resource_holder.hpp"
 #include "include/utils.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <cmath>
 
+const string PLAYER_ASSET_PATH = "./assets/characters/1/D_Idle.png";
+
 Game::Game(const string &title)
     : _mWindow(sf::RenderWindow(
           sf::VideoMode(utils::WINDOW_WIDTH, utils::WINDOW_HEIGHT), title)),
-      _inputManager(nullptr),
-      _mPlayer(std::make_unique<Player>(Player::Type::Archer)) {
+      _inputManager(nullptr) {
+
+  TextureHolder playerTexture;
+  sf::IntRect playerSpriteSheetEdges(9, 3, 13, 18);
+  playerTexture.Load(textures::Archer, PLAYER_ASSET_PATH,
+                     playerSpriteSheetEdges);
+  _mPlayer = std::make_unique<Player>(Player::Type::Archer, playerTexture);
+
   _movementMap[Moving::UP] = false;
   _movementMap[Moving::DOWN] = false;
   _movementMap[Moving::LEFT] = false;
@@ -43,7 +52,6 @@ void Game::Update() { _mPlayer->Update(_deltaTime); }
 
 void Game::Render() {
   _mWindow.clear();
-  _mWindow.draw(_mPlayer->GetSprite());
   _mWindow.display();
 }
 

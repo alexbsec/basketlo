@@ -4,18 +4,19 @@
 #include "entity.hpp"
 #include "input.hpp"
 #include "resource_holder.hpp"
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
 using string = std::string;
 
-class Player : public Entity {
+class Player : public Entity { // Inherits indirectly SceneNode
 public:
   enum Type { Archer, Mage, Warrior };
 
-  enum AnimationState { Idle, Walking, Attacking, Dying };
-
-  explicit Player(Type type);
+  explicit Player(Type type, const TextureHolder &textures);
+  virtual void DrawCurrent(sf::RenderTarget &target,
+                           sf::RenderStates states) const;
   void Update(sf::Time deltaTime);
 
   sf::Sprite GetSprite() const;
@@ -29,8 +30,6 @@ private:
 
   sf::Vector2f _mPosition;
   sf::Sprite _mSprite;
-
-  ResourceHolder<sf::Texture, textures::PlayerTexture> _mTextureResource;
 
   Type _mType;
 

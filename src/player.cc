@@ -2,9 +2,8 @@
 #include "include/resource_holder.hpp"
 #include "include/utils.hpp"
 #include <SFML/Graphics/Rect.hpp>
-#include <iostream>
+#include <SFML/Graphics/RenderStates.hpp>
 
-const string PLAYER_ASSET_PATH = "./assets/characters/1/D_Idle.png";
 
 // Start position of the Idle Sprite
 const int X_START = 9; // 13;
@@ -23,21 +22,39 @@ const float ASPECT_RATIO = (float)X_PIXELS / Y_PIXELS;
 const float X_SCALE = (ASPECT_RATIO * PLAYER_HEIGHT) / X_PIXELS;
 const float Y_SCALE = PLAYER_HEIGHT / Y_PIXELS;
 
-Player::Player(Type type) : _mPosition(), _mSprite(), _mType(type), _mIsMoving(false) {
-  unsigned int textureCount = 0;
-  for (const auto& playerTexture : textures::PLAYER_TEXTURES) {
-    _mTextureResource.Load(playerTexture, PLAYER_ASSET_PATH,
-            sf::IntRect(X_START + textureCount * X_OFFSET, Y_START, X_PIXELS, Y_PIXELS));
-    textureCount++;
+textures::ID ToTextureID(Player::Type type) {
+  switch (type) {
+  case Player::Type::Archer: {
+    return textures::ID::Archer;
   }
-  _mSprite.setTexture(_mTextureResource.Get(textures::PlayerTexture::Idle1));
-  _mSprite.setPosition(100.0f, 100.0f);
-  _mSprite.setScale(X_SCALE, Y_SCALE);
 
+  case Player::Type::Mage: {
+    return textures::ID::Mage;
+  }
+
+  case Player::Type::Warrior: {
+    return textures::ID::Warrior;
+  }
+  }
+
+  return textures::ID::None;
+}
+
+Player::Player(Type type, const TextureHolder &textures)
+    : _mPosition(), _mSprite(textures.Get(ToTextureID(type))), _mType(type),
+      _mIsMoving(false) {
   _movementMap[Moving::UP] = false;
   _movementMap[Moving::DOWN] = false;
   _movementMap[Moving::LEFT] = false;
   _movementMap[Moving::RIGHT] = false;
+
+  sf::FloatRect spriteBounds = _mSprite.getLocalBounds();
+  _mSprite.setOrigin(spriteBounds.width / 2.0f, spriteBounds.height / 2.0f);
+}
+
+void Player::DrawCurrent(sf::RenderTarget &target,
+                         sf::RenderStates states) const {
+  target.draw(_mSprite, states);
 }
 
 void Player::Update(sf::Time deltaTime) {
@@ -93,7 +110,4 @@ void Player::HandleMovement() {
 
 void Player::HandleAnimation() {
   _currentFrame = (_currentFrame + 1) % textures::PLAYER_TEXTURES.size();
-  // Set the texture for the current frame
-  _mSprite.setTexture(_mTextureResource.Get(textures::PLAYER_TEXTURES[_currentFrame]));
 }
-
