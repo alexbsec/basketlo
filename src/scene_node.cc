@@ -1,4 +1,5 @@
 #include "include/scene_node.hpp"
+#include <SFML/System/Vector2.hpp>
 #include <algorithm>
 #include <cassert>
 
@@ -36,6 +37,10 @@ sf::Transform SceneNode::GetWorldTransform() const {
   return transform;
 }
 
+sf::Vector2f SceneNode::GetWorldPosition() const {
+  return GetWorldTransform() * sf::Vector2f();
+}
+
 void SceneNode::draw(sf::RenderTarget &target, sf::RenderStates states) const {
   // states.transform contains the absolut world transform
   states.transform *= getTransform();
@@ -50,8 +55,11 @@ void SceneNode::draw(sf::RenderTarget &target, sf::RenderStates states) const {
   }
 }
 
-// Virtual function with no implementation
 void SceneNode::UpdateCurrent(sf::Time deltaTime) {}
+
+// Virtual function with no implementation
+void SceneNode::DrawCurrent(sf::RenderTarget &target,
+                            sf::RenderStates states) const {}
 
 void SceneNode::UpdateChildren(sf::Time deltaTime) {
   // Recursively access all children and updates them

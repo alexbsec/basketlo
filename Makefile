@@ -16,7 +16,7 @@ SOURCES = $(wildcard $(SRC_DIR)/*.cc)
 OBJECTS = $(patsubst $(SRC_DIR)/%.cc, $(BUILD_DIR)/%.o, $(SOURCES))
 
 # Executable
-EXECUTABLE = $(BUILD_DIR)/basktlo.o
+EXECUTABLE = $(BUILD_DIR)/basktlo
 
 # Default target
 all: $(EXECUTABLE)
