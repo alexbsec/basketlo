@@ -16,11 +16,11 @@ class SceneNode : public sf::Transformable,
                   private sf::NonCopyable {
 public:
   typedef std::unique_ptr<SceneNode> Ptr;
-  SceneNode();
   void AttachChild(Ptr child);
   Ptr DetachChild(const SceneNode &node);
   void Update(sf::Time deltaTime);
   sf::Transform GetWorldTransform() const;
+  sf::Vector2f GetWorldPosition() const;
 
 private:
   virtual void draw(sf::RenderTarget &target,

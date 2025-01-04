@@ -17,23 +17,19 @@ public:
   explicit Player(Type type, const TextureHolder &textures);
   virtual void DrawCurrent(sf::RenderTarget &target,
                            sf::RenderStates states) const;
-  void Update(sf::Time deltaTime);
 
   sf::Sprite GetSprite() const;
-  sf::Vector2f GetPosition() const;
 
   void SetMovementMap(const umap<Moving, bool> &map);
+  void HandleMovement();
 
 private:
-  void HandleMovement();
   void HandleAnimation();
 
   sf::Vector2f _mPosition;
   sf::Sprite _mSprite;
 
   Type _mType;
-
-  const float PLAYER_SPEED = 200.0f;
 
   umap<Moving, bool> _movementMap;
 

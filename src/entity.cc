@@ -8,6 +8,10 @@ void Entity::SetVelocity(float vx, float vy) {
   _mVelocity = sf::Vector2f(vx, vy);
 }
 
+void Entity::SetPosition(sf::Vector2f position) {
+  setPosition(position.x, position.y);
+}
+
 void Entity::SetIsMoving(bool isMoving) { _mIsMoving = isMoving; }
 
 void Entity::SetIsAlive(bool isAlive) { _mIsAlive = isAlive; }
@@ -21,6 +25,10 @@ bool Entity::IsMoving() const { return _mIsMoving; }
 bool Entity::IsAlive() const { return _mIsAlive; }
 
 bool Entity::IsAttacking() const { return _mIsAttacking; }
+
+// Virtual definition just to link binaries
+void Entity::DrawCurrent(sf::RenderTarget &target,
+                         sf::RenderStates states) const {}
 
 void Entity::UpdateCurrent(sf::Time deltaTime) {
   move(_mVelocity * deltaTime.asSeconds());
